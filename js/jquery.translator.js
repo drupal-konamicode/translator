@@ -10,9 +10,13 @@
 
     // Load the dictionary E.g. bork.js if it isn't loaded yet.
     if (typeof dictionary === 'undefined') {
-      $.getScript('/libraries/translator/js/dictionaries/' + options.translator + '.js').done(function () {
+        $.getScript('js/dictionaries/' + options.translator + '.js').done(function () {
+            translatePage();
+        });
+      // TODO: Uncomment and remove above.
+      /*$.getScript('/libraries/translator/js/dictionaries/' + options.translator + '.js').done(function () {
         translatePage();
-      });
+      });*/
     }
     else {
       // If it's loaded already, just execute the translation.
@@ -27,10 +31,6 @@
         return !elem.innerHTML.match(/<\w/);
       };
 
-      // TODO: Remove.
-      let long_string = 'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.';
-      console.log(translate(long_string));
-
       // TODO: Define the order,
       // 1. Replace full strings.
       // 2. Replace letters (eg an -> un).
@@ -44,7 +44,16 @@
         // Fetch the string.
         let text_string = this.innerText || this.textContent;
 
-        let translated = translate(text_string);
+        // TODO!
+        console.log(text_string);
+        // 1. Replace words.
+        let translated = replaceWords(text_string);
+        // 2. Replace letters (eg an -> un).
+        translated = replaceLetters(translated);
+        // 3. Replace single words (dictionary).
+        translated = translate(translated);
+
+        // Replace the text.
         if (this.innerText) {
           this.innerText = translated;
         }
@@ -53,6 +62,14 @@
         }
       });
       return this;
+    }
+
+    function replaceWords(text) {
+      return text;
+    }
+
+    function replaceLetters(text) {
+      return text;
     }
 
     /**
